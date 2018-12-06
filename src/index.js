@@ -6,6 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import {Provider} from 'react-redux';
+import { Route, Switch } from 'react-router';
 import {ConnectedRouter} from 'react-router-redux';
 import store, { history } from "./store";
 
@@ -13,7 +14,10 @@ ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history} store={store}>
 			<div>
-				<App />
+				<Switch>
+					<Route exact path="/" render={() => <App />} />
+					<Route render={() => (<div>Not Valid Route</div>)} />
+				</Switch>
 			</div>
 		</ConnectedRouter>
 	</Provider>,
