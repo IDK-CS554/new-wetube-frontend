@@ -11,8 +11,7 @@
     "react-dom": "^16.6.3",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-router-redux": "^5.0.0-alpha.9",
+    "react-router-redux": "^5.0.0-alpha.9", // TODO refactor to use either "react-router-redux" or "connected-react-router"
     "react-scripts": "2.1.1",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
