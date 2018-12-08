@@ -5,21 +5,24 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router';
-import {ConnectedRouter} from 'react-router-redux';
-import store, { history } from "./store";
+import { ConnectedRouter } from 'react-router-redux';
+import { PersistGate } from 'redux-persist/integration/react'
+import { store, persistor, history } from "./store";
 
 ReactDOM.render(
 	<Provider store={store}>
-		<ConnectedRouter history={history} store={store}>
-			<div>
-				<Switch>
-					<Route exact path="/" render={() => <App />} />
-					<Route render={() => (<div>Not Valid Route</div>)} />
-				</Switch>
-			</div>
-		</ConnectedRouter>
+		<PersistGate persistor={persistor} loading={null}>
+			<ConnectedRouter history={history} store={store}>
+				<div>
+					<Switch>
+						<Route exact path="/" render={() => <App/>}/>
+						<Route render={() => (<div>Not Valid Route</div>)}/>
+					</Switch>
+				</div>
+			</ConnectedRouter>
+		</PersistGate>
 	</Provider>,
 	document.getElementById("root")
 );
