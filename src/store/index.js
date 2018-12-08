@@ -28,6 +28,6 @@ if (process.env.NODE_ENV === "development") {
 
 const composedEnhancers = compose(applyMiddleware(...middleware), ...enhancers);
 
-export const store = persistStore(createStore(persistedReducer, initialState, composedEnhancers));
+export const store = createStore(persistedReducer, initialState, composedEnhancers);
 export const persistor = persistStore(store);
 

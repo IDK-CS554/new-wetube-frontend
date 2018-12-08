@@ -11,6 +11,9 @@ import { ConnectedRouter } from 'react-router-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor, history } from "./store";
 
+// Uncomment to flush store
+// persistor.flush();
+
 ReactDOM.render(
 	<Provider store={store}>
 		<PersistGate persistor={persistor} loading={null}>
