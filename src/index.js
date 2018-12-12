@@ -11,8 +11,10 @@ import { ConnectedRouter } from 'react-router-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { store, persistor, history } from "./store";
 
+import './styles/App.scss';
+
 // Uncomment to flush store
-// persistor.flush();
+// persistor.persist();
 
 ReactDOM.render(
 	<Provider store={store}>

@@ -1,0 +1,36 @@
+.login {
+  padding-top: 40px;
+  width: 50%;
+  display: flex;
+  flex-flow: column;
+  margin: auto;
+  text-align: center;
+
+  .header-text {
+    margin-bottom: 20px;
+  }
+
+  .input-section {
+    display: flex;
+    flex-flow: row;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    label {
+      margin: auto 20px auto 0;
+      min-width: 175px;
+    }
+
+    button {
+      width: 40%;
+    }
+  }
+
+  button {
+    width: 50%;
+    margin: auto;
+
+    &:focus {
+      box-shadow: none;
+    }
+  }
+}
