@@ -6,10 +6,8 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router';
-import { ConnectedRouter } from 'react-router-redux';
 import { PersistGate } from 'redux-persist/integration/react'
-import { store, persistor, history } from "./store";
+import { store, persistor } from "./store";
 
 import './styles/App.scss';
 
@@ -19,14 +17,7 @@ import './styles/App.scss';
 ReactDOM.render(
 	<Provider store={store}>
 		<PersistGate persistor={persistor} loading={null}>
-			<ConnectedRouter history={history} store={store}>
-				<div>
-					<Switch>
-						<Route exact path="/" render={() => <App/>}/>
-						<Route render={() => (<div>Not Valid Route</div>)}/>
-					</Switch>
-				</div>
-			</ConnectedRouter>
+			<App/>
 		</PersistGate>
 	</Provider>,
 	document.getElementById("root")
