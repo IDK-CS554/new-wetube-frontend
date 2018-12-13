@@ -5,8 +5,8 @@ import Results from "./VideoResults";
 import gql from "graphql-tag";
 
 const queryVideos = q => gql`
-  {
-    videos(q: q) {
+  query VideoQuery {
+    videos(q: "${q}") {
       videoId
       title
       thumbnails {
@@ -23,13 +23,9 @@ class Room extends Component {
     query: ""
   };
 
-  componentDidMount() {
-    console.log(queryVideos("hello"));
-  }
-
   searchVideo(e) {
     e.preventDefault();
-    this.setState({ query: e.target.value });
+    this.setState({ query: e.target.query.value });
   }
 
   render() {
@@ -42,7 +38,7 @@ class Room extends Component {
             <Col lg="9">
 	            <form onSubmit={e => this.searchVideo(e)} className="search-container">
 		            <h1 className="search-text">Search for videos</h1>
-		            <Input placeholder="Type Keyword(s)" />
+		            <Input name="query" placeholder="Type Keyword(s)" />
 	            </form>
 
               {query && (
