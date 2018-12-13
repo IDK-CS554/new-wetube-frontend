@@ -1,6 +1,6 @@
 .room {
   nav {
-    background: #3c84fc;
+    background: #999;
 
     a {
       color: white;
@@ -8,6 +8,29 @@
   }
 
   .container {
-    margin-top: 20px;
+    margin-top: 40px;
+
+    .search-container {
+      min-height: 200px;
+      background-color: #3a83ff;
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      justify-content: space-evenly;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px gray;
+      margin-bottom: 40px;
+
+      .search-text {
+        text-align: center;
+        color: white;
+      }
+
+      input {
+        width: 50%;
+        margin: 0 auto;
+        height: 50px;
+      }
+    }
   }
 }
