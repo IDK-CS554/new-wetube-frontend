@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 
 import Login from './components/Login';
+import Room from './components/Room';
 import { ConnectedRouter } from "react-router-redux";
 import { history, store } from "./store";
 import { Route, Switch } from "react-router";
@@ -16,6 +17,7 @@ class App extends Component {
 							<div>
 								<Switch>
 									<Route exact path="/" render={() => <Login/>}/>
+									<Route path="/rooms/:roomId" component={Room}/>
 									<Route render={() => (<div>Not Valid Route</div>)}/>
 								</Switch>
 							</div>
