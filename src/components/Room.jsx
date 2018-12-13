@@ -37,21 +37,27 @@ class Room extends Component {
     return (
       <div className="room">
         <Navbar />
-        <Container>
+        <Container fluid>
           <Row>
-            <Col lg="12">
-              <div className="search-container">
-                <form onSubmit={e => this.searchVideo(e)}>
-                  <h1 className="search-text">Search for videos</h1>
-                  <Input placeholder="Type Keyword(s)" />
-                </form>
-              </div>
+            <Col lg="9">
+	            <form onSubmit={e => this.searchVideo(e)} className="search-container">
+		            <h1 className="search-text">Search for videos</h1>
+		            <Input placeholder="Type Keyword(s)" />
+	            </form>
 
               {query && (
                 <div className="videos">
                   <Results query={queryVideos(query)} />
                 </div>
               )}
+            </Col>
+
+            <Col lg="3" className="chat-column">
+              <div className="chat-container">
+	              <Input type="text" placeholder="Type message..."/>
+
+	              <hr/>
+              </div>
             </Col>
           </Row>
         </Container>

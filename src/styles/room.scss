@@ -1,4 +1,6 @@
 .room {
+  height: 80vh;
+
   nav {
     background: #999;
 
@@ -7,29 +9,43 @@
     }
   }
 
-  .container {
-    margin-top: 40px;
+  .container-fluid {
+    margin: 40px 0;
+    height: 100%;
 
-    .search-container {
-      min-height: 200px;
-      background-color: #3a83ff;
-      display: flex;
-      flex-flow: column;
-      align-items: center;
-      justify-content: space-evenly;
-      border-radius: 10px;
-      box-shadow: 0 5px 20px gray;
-      margin-bottom: 40px;
+    .row {
+      height: 100%;
 
-      .search-text {
-        text-align: center;
-        color: white;
+      .search-container {
+        min-height: 200px;
+        background-color: #3a83ff;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: space-evenly;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px gray;
+        margin-bottom: 40px;
+
+        .search-text {
+          text-align: center;
+          color: white;
+        }
+
+        input {
+          width: 50%;
+          margin: 0 auto;
+          height: 50px;
+        }
       }
 
-      input {
-        width: 50%;
-        margin: 0 auto;
-        height: 50px;
+      .chat-container {
+        border: 1px solid darkgray;
+        border-radius: 5px;
+        height: 100%;
+        padding: 15px;
+        display: flex;
+        flex-flow: column-reverse;
       }
     }
   }
