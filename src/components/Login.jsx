@@ -3,16 +3,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Input, Label } from "reactstrap";
 
-import { connectToSocket, createRoom } from "../actions/applicationActions";
+import { connectToSocket, updateUsername, createRoom } from "../actions/applicationActions";
+
+const mapStateToProps = state => {
+	return {
+		username: state.application.username
+	}
+};
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({connectToSocket, createRoom}, dispatch);
+	return bindActionCreators({connectToSocket, updateUsername, createRoom}, dispatch);
 };
 
 class Login extends Component {
 	state = {
 		roomOption: null,
-		username: "",
 		roomId: ""
 	};
 
@@ -21,7 +26,8 @@ class Login extends Component {
 	}
 
 	isButtonEnabled = () => {
-		const {roomOption, username, roomId} = this.state;
+		const {roomOption, roomId} = this.state;
+		const {username} = this.props;
 		switch (roomOption) {
 			case 0:
 				return username.trim().length;
@@ -38,7 +44,8 @@ class Login extends Component {
 
 	enterRoom = e => {
 		e.preventDefault();
-		const {username, roomId, roomOption} = this.state;
+		const {roomId, roomOption} = this.state;
+		const {username} = this.props;
 		if (roomOption === 0) {
 			this.props.createRoom(username);
 		} else {
@@ -47,7 +54,8 @@ class Login extends Component {
 	};
 
 	render() {
-		const {roomOption, username, roomId} = this.state;
+		const {roomOption, roomId} = this.state;
+		const {updateUsername, username} = this.props;
 		return (
 			<form className="login" onSubmit={evt => this.enterRoom(evt)}>
 				<h4 className="header-text">What do you want to do?</h4>
@@ -78,7 +86,7 @@ class Login extends Component {
 							id="username"
 							placeholder="Enter Username"
 							value={username}
-							onChange={e => this.setState({username: e.target.value})}
+							onChange={e => updateUsername(e.target.value)}
 						/>
 					</div>
 				)}
@@ -109,4 +117,4 @@ class Login extends Component {
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

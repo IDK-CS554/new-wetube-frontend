@@ -12,7 +12,7 @@ import { store, persistor } from "./store";
 import './styles/App.scss';
 
 // Uncomment to flush store
-// persistor.persist();
+// persistor.purge();
 
 ReactDOM.render(
 	<Provider store={store}>
