@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Input, Label } from "reactstrap";
+import { Button, Input, Label, Container, Row, Col } from "reactstrap";
 
 import { connectToSocket, updateUsername, createRoom } from "../actions/applicationActions";
 
@@ -57,62 +57,69 @@ class Login extends Component {
 		const {roomOption, roomId} = this.state;
 		const {updateUsername, username} = this.props;
 		return (
-			<form className="login" onSubmit={evt => this.enterRoom(evt)}>
-				<h4 className="header-text">What do you want to do?</h4>
-				<div className="input-section">
-					<Button
-						className="create-room"
-						color="primary"
-						outline={roomOption !== 0}
-						onClick={() => this.setRoomOption(0)}
-					>
-						Create Room
-					</Button>
-					<Button
-						className="join-room"
-						color="primary"
-						outline={roomOption !== 1}
-						onClick={() => this.setRoomOption(1)}
-					>
-						Join Room
-					</Button>
-				</div>
+			<Container>
+				<Row>
+					<Col lg="12">
+						<form className="login" onSubmit={evt => this.enterRoom(evt)}>
+							<h4 className="header-text">What do you want to do?</h4>
+							<div className="input-section">
+								<Button
+									className="create-room"
+									color="primary"
+									outline={roomOption !== 0}
+									onClick={() => this.setRoomOption(0)}
+								>
+									Create Room
+								</Button>
+								<Button
+									className="join-room"
+									color="primary"
+									outline={roomOption !== 1}
+									onClick={() => this.setRoomOption(1)}
+								>
+									Join Room
+								</Button>
+							</div>
 
-				{roomOption !== null && (
-					<div className="input-section">
-						<Label for="username">Username (required):</Label>
-						<Input
-							type="text"
-							id="username"
-							placeholder="Enter Username"
-							value={username}
-							onChange={e => updateUsername(e.target.value)}
-						/>
-					</div>
-				)}
+							{roomOption !== null && (
+								<div className="input-section">
+									<Label for="username">Username (required):</Label>
+									<Input
+										type="text"
+										id="username"
+										placeholder="Enter Username"
+										value={username}
+										onChange={e => updateUsername(e.target.value)}
+									/>
+								</div>
+							)}
 
-				{roomOption === 1 && (
-					<div className="input-section">
-						<Label for="room">Room ID (required):</Label>
-						<Input
-							type="text"
-							id="room"
-							placeholder="Enter Room ID"
-							value={roomId}
-							onChange={e => this.setState({roomId: e.target.value})}
-						/>
-					</div>
-				)}
+							{roomOption === 1 && (
+								<div className="input-section">
+									<Label for="room">Room ID (required):</Label>
+									<Input
+										type="text"
+										id="room"
+										placeholder="Enter Room ID"
+										value={roomId}
+										onChange={e => this.setState({roomId: e.target.value})}
+									/>
+								</div>
+							)}
 
-				<Button
-					className="submit"
-					color="success"
-					disabled={!this.isButtonEnabled()}
-					type="submit"
-				>
-					Enter Room
-				</Button>
-			</form>
+							<Button
+								className="submit"
+								color="success"
+								disabled={!this.isButtonEnabled()}
+								type="submit"
+							>
+								Enter Room
+							</Button>
+						</form>
+					</Col>
+				</Row>
+			</Container>
+
 		);
 	}
 }

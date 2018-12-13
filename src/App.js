@@ -10,21 +10,15 @@ import { Route, Switch } from "react-router";
 class App extends Component {
 	render() {
 		return (
-			<Container>
-				<Row>
-					<Col lg="12">
-						<ConnectedRouter history={history} store={store}>
-							<div>
-								<Switch>
-									<Route exact path="/" render={() => <Login/>}/>
-									<Route path="/rooms/:roomId" component={Room}/>
-									<Route render={() => (<div>Not Valid Route</div>)}/>
-								</Switch>
-							</div>
-						</ConnectedRouter>
-					</Col>
-				</Row>
-			</Container>
+			<ConnectedRouter history={history} store={store}>
+				<div>
+					<Switch>
+						<Route exact path="/" render={() => <Login/>}/>
+						<Route path="/rooms/:roomId" component={Room}/>
+						<Route render={() => (<div>Not Valid Route</div>)}/>
+					</Switch>
+				</div>
+			</ConnectedRouter>
 		);
 	}
 }

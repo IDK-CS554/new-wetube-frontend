@@ -14,12 +14,11 @@ export default (state = initialState, action) => {
 				connected: true,
 				roomId: action.roomId
 			};
-
 		case UPDATE_USERNAME:
 			return {
 				...state,
 				username: action.username
-			}
+			};
 		default:
 			return state;
 	}
