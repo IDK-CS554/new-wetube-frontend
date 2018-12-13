@@ -1,16 +1,20 @@
 import React, { Component } from "react";
+import { Row, Col } from "reactstrap";
 import { Query } from "react-apollo";
 import Card from "./Card";
 
 export default class extends Component {
+  componentDidMount() {
+    console.log(this.props.query);
+  }
+
   render() {
-    const { videoQuery } = this.props;
+    const { query } = this.props;
     return (
       <div>
-        <Query query={videoQuery}>
+        <Query query={query}>
           {({ loading, error, data }) => {
             if (loading) {
-              console.log(data);
               return <h2>loading...</h2>;
             }
             if (error) {
@@ -18,23 +22,24 @@ export default class extends Component {
               return <h2>error!</h2>;
             }
             console.log(data);
-            return <h2>worked!</h2>;
+
+            return (
+              <Row>
+                {data.videos.map((video, key) => {
+                  return (
+                    <Col lg="3" key={key}>
+                      <Card
+                        title={video.title}
+                        thumbUrl={video.thumbnails.default.url}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            );
           }}
         </Query>
       </div>
     );
   }
 }
-
-// <Row>
-//   {[...Array(4)].map((video, key) => {
-//     return (
-//       <Col lg="3" key={key}>
-//         <Card
-//           title="oof"
-//           thumbUrl="https://onaliternote.files.wordpress.com/2016/11/wp-1480230666843.jpg"
-//         />
-//       </Col>
-//     );
-//   })}
-// </Row>
