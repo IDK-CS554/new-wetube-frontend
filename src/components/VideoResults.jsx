@@ -5,7 +5,7 @@ import Card from "./Card";
 
 export default class extends Component {
   render() {
-    const { query, changeRoomType } = this.props;
+    const { query } = this.props;
     return (
       <div>
         <Query query={query}>
@@ -23,7 +23,6 @@ export default class extends Component {
                   return (
                     <Col lg="3" key={key}>
                       <Card
-                        changeRoomType={changeRoomType}
                         title={video.title}
                         videoId={video.videoId}
                         thumbUrl={video.thumbnails.default.url}

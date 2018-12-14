@@ -1,11 +1,11 @@
 import {
-  CREATE_ROOM_SUCCESSFUL,
-  UPDATE_USERNAME,
-  JOIN_ROOM_SUCCESSFUL,
-  JOIN_ROOM_UNSUCCESSFUL,
-  JOINING_ROOM,
-  USERS_RECEIVED,
-  CHANGE_ROOM_TYPE
+	CREATE_ROOM_SUCCESSFUL,
+	UPDATE_USERNAME,
+	JOIN_ROOM_SUCCESSFUL,
+	JOIN_ROOM_UNSUCCESSFUL,
+	JOINING_ROOM,
+	USERS_RECEIVED,
+	CHANGE_ROOM_TYPE, RECEIVED_TEXT, SEND_TEXT
 } from "../../actions/actionTypes";
 
 const initialState = {
@@ -14,8 +14,19 @@ const initialState = {
   username: "",
   searching: true,
   users: [],
-  roomType: "choose"
+  roomType: "choose",
+  chat: []
 };
+
+const chatObject = (username, roomId, text) => {
+	return {
+		username,
+		text,
+    roomId
+	}
+};
+
+const SYSTEM = 'SYSTEM';
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -39,7 +50,8 @@ export default (state = initialState, action) => {
 	      connected: true,
 	      searching: false,
 	      roomId: action.roomId,
-	      users: action.users
+	      users: action.users,
+	      chat: [chatObject(SYSTEM, action.roomId, `${state.username} has created the chat!`), ...state.chat]
       };
     case UPDATE_USERNAME:
       return {
@@ -57,7 +69,8 @@ export default (state = initialState, action) => {
         connected: true,
         roomId: action.roomId,
         searching: false,
-	      users: action.users
+	      users: action.users,
+	      chat: [chatObject('SYSTEM', action.roomId, `${action.newestUserName} has joined the chat!`), ...state.chat]
       };
     case JOIN_ROOM_UNSUCCESSFUL:
       return {
@@ -71,6 +84,12 @@ export default (state = initialState, action) => {
         ...state,
         users: action.users
       };
+    case SEND_TEXT:
+    case RECEIVED_TEXT:
+	    return {
+        ...state,
+	      chat: [chatObject(action.username, action.roomId, action.text), ...state.chat]
+      }
     default:
       return state;
   }

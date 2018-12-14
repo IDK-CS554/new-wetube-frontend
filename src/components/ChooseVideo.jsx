@@ -17,7 +17,7 @@ const queryVideos = q => gql`
   }
 `;
 
-export default ({ query, searchVideo, changeRoomType }) => {
+export default ({ query, searchVideo }) => {
   return (
     <Col lg="9">
       <form onSubmit={e => searchVideo(e)} className="search-container">
@@ -27,7 +27,7 @@ export default ({ query, searchVideo, changeRoomType }) => {
 
       {query && (
         <div className="videos">
-          <Results query={queryVideos(query)} changeRoomType={changeRoomType} />
+          <Results query={queryVideos(query)} />
         </div>
       )}
     </Col>

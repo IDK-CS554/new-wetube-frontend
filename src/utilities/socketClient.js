@@ -1,9 +1,9 @@
 import { store } from "../store";
 import io from "socket.io-client";
 import {
-  createRoomSuccessful,
-  joinRoomSuccessful,
-  joinRoomUnsuccessful
+	createRoomSuccessful,
+	joinRoomSuccessful,
+	joinRoomUnsuccessful, receivedText
 } from "../actions/applicationActions";
 
 let socket = null;
@@ -25,6 +25,11 @@ export const openConnection = () => {
     socket.on("joinRoomUnsuccessful", roomId => {
       dispatch(joinRoomUnsuccessful(roomId));
     });
+
+    socket.on("receivedText", payload => {
+	    const {username, text, roomId} = payload;
+	    dispatch(receivedText(text, username, roomId));
+    })
     resolve();
   });
 };
@@ -39,4 +44,8 @@ export const joinRoom = (username, roomId) => {
 
 export const joinVideoChat = roomId => {
   socket.emit("joinVideoChat", roomId);
+};
+
+export const sendText = (username, text, roomId) => {
+	socket.emit('sendText', {username, text, roomId});
 };
