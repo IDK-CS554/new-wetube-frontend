@@ -19,7 +19,9 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				connected: true,
-				roomId: action.roomId
+				searching: false,
+				roomId: action.roomId,
+				users: action.users
 			};
 		case UPDATE_USERNAME:
 			return {

@@ -46,6 +46,10 @@
         padding: 15px;
         display: flex;
         flex-flow: column-reverse;
+
+        p {
+          margin-bottom: 5px;
+        }
       }
     }
   }

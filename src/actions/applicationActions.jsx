@@ -50,14 +50,15 @@ export const updateUsername = username => {
 	};
 };
 
-export const createRoomSuccessful = roomId => {
+export const createRoomSuccessful = room => {
 	return dispatch => {
 		dispatch({
 			type: CREATE_ROOM_SUCCESSFUL,
-			roomId
+			roomId: room.id,
+			users: room.users
 		});
 
-		history.push(`/rooms/${roomId}`);
+		history.push(`/rooms/${room.id}`);
 	}
 };
 
