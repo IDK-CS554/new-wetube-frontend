@@ -28,7 +28,12 @@ export const openConnection = () => {
     socket.on("receivedText", payload => {
 	    const {username, text, roomId} = payload;
 	    dispatch(receivedText(text, username, roomId));
-    })
+    });
+
+    socket.on("userLeft", payload => {
+    	const {username, roomId} = payload;
+    	dispatch(receivedText(`${username} has left the room.`, 'SYSTEM', roomId));
+    });
     resolve();
   });
 };
