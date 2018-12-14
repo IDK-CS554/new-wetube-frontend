@@ -14,9 +14,8 @@ export const openConnection = () => {
       dispatch(createRoomSuccessful(roomId));
     });
 
-    socket.on("joinRoomSuccessful", payload => {
-      const {roomId, username} = payload;
-      dispatch(joinRoomSuccessful(roomId));
+    socket.on("joinRoomSuccessful", room => {
+      dispatch(joinRoomSuccessful(room));
     });
 
     socket.on("joinRoomUnsuccessful", roomId => {

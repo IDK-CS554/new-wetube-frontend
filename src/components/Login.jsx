@@ -28,7 +28,7 @@ class Login extends Component {
 		this.props.connectToSocket();
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	static getDerivedStateFromProps(nextProps) {
 		if (!nextProps.connected && !nextProps.searching) {
 			return {errorText: 'Room not found.'}
 		}

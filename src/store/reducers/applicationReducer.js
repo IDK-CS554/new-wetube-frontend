@@ -36,7 +36,8 @@ export default (state = initialState, action) => {
 				...state,
 				connected: true,
 				roomId: action.roomId,
-				searching: false
+				searching: false,
+				users: action.users
 			};
 		case JOIN_ROOM_UNSUCCESSFUL:
 			return {
@@ -44,11 +45,6 @@ export default (state = initialState, action) => {
 				connected: false,
 				roomId: action.roomId,
 				searching: false
-			};
-		case USERS_RECEIVED:
-			return {
-				...state,
-				users: action.users
 			};
 		default:
 			return state;

@@ -37,11 +37,6 @@ class Room extends Component {
 		query: ""
 	};
 
-	componentDidMount() {
-		const {getUsers, roomId} = this.props;
-		getUsers(roomId);
-	}
-
 	searchVideo(e) {
 		e.preventDefault();
 		this.setState({query: e.target.query.value});

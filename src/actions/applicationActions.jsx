@@ -61,14 +61,15 @@ export const createRoomSuccessful = roomId => {
 	}
 };
 
-export const joinRoomSuccessful = roomId => {
+export const joinRoomSuccessful = room => {
 	return dispatch => {
 		dispatch({
 			type: JOIN_ROOM_SUCCESSFUL,
-			roomId
+			roomId: room.id,
+			users: room.users
 		});
 
-		history.push(`/rooms/${roomId}`);
+		history.push(`/rooms/${room.id}`);
 	}
 };
 
