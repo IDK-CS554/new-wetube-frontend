@@ -31,7 +31,7 @@ export const openConnection = () => {
     });
 
     socket.on("userLeft", payload => {
-    	const {username, roomId} = payload;
+    	const {username, roomId, userId} = payload;
     	dispatch(receivedText(`${username} has left the room.`, 'SYSTEM', roomId));
     });
     resolve();
