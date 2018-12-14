@@ -2,7 +2,8 @@ import {
   openConnection,
   createRoom as createRoomSocket,
   joinRoom as joinRoomSocket,
-	sendText as sendTextSocket
+	sendText as sendTextSocket,
+	exitRoom as exitRoomSocket
 } from "../utilities/socketClient";
 import {
 	CREATE_ROOM_SUCCESSFUL,
@@ -22,7 +23,7 @@ export const connectToSocket = () => {
     try {
       await openConnection();
     } catch (e) {
-      console.log("Could not connect to socket client. Retrying...");
+      console.log(e);
     }
   };
 };
@@ -128,5 +129,11 @@ export const receivedText = (text, username, roomId) => {
 		text,
 		username,
 		roomId
+	}
+};
+
+export const exitRoom = () => {
+	return () => {
+		exitRoomSocket();
 	}
 };

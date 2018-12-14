@@ -11,6 +11,10 @@ const { dispatch, getState } = store;
 
 export const openConnection = () => {
   return new Promise((resolve, reject) => {
+  	if (socket !== null) {
+  		reject("Connection already open");
+  		return;
+	  }
     socket = io(`${process.env.REACT_APP_backend_url}/final`);
     socket.on("createRoomSuccessful", room => {
       dispatch(createRoomSuccessful(room));
@@ -52,4 +56,8 @@ export const joinVideoChat = roomId => {
 
 export const sendText = (username, text, roomId) => {
 	socket.emit('sendText', {username, text, roomId});
+};
+
+export const exitRoom = () => {
+	socket.emit('exitRoom');
 };

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import {withRouter} from 'react-router';
 import {
 	Navbar,
 	NavbarBrand,
@@ -10,7 +11,7 @@ import {
 	Nav
 } from "reactstrap";
 
-import { changeRoomType } from "../actions/applicationActions";
+import { changeRoomType, exitRoom } from "../actions/applicationActions";
 
 const mapStateToProps = state => {
 	return {
@@ -20,10 +21,16 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({changeRoomType}, dispatch);
+	return bindActionCreators({changeRoomType, exitRoom}, dispatch);
 };
 
 class NavbarComponent extends Component {
+
+	exitRoom = () => {
+		this.props.exitRoom();
+		this.props.history.replace('/');
+	};
+
 	render() {
 		const {roomType, videoId, changeRoomType} = this.props;
 		return (
@@ -40,7 +47,7 @@ class NavbarComponent extends Component {
 							</NavItem>
 						)}
 						<NavItem>
-							<Button color="danger">Exit Room</Button>
+							<Button color="danger" onClick={e => this.exitRoom()}>Exit Room</Button>
 						</NavItem>
 					</Nav>
 				</Navbar>
@@ -49,7 +56,7 @@ class NavbarComponent extends Component {
 	}
 }
 
-export default connect(
+export default withRouter(connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(NavbarComponent);
+)(NavbarComponent));
