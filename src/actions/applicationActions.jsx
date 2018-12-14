@@ -69,7 +69,9 @@ export const joinRoomSuccessful = room => {
 			users: room.users
 		});
 
-		history.push(`/rooms/${room.id}`);
+		if (!history.location.pathname.includes('rooms')) {
+			history.push(`/rooms/${room.id}`);
+		}
 	}
 };
 
