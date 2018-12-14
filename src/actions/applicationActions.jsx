@@ -1,16 +1,17 @@
 import {
   openConnection,
   createRoom as createRoomSocket,
-  joinRoom as joinRoomSocket
+  joinRoom as joinRoomSocket,
+	sendText as sendTextSocket
 } from "../utilities/socketClient";
 import {
-  CREATE_ROOM_SUCCESSFUL,
-  UPDATE_USERNAME,
-  JOIN_ROOM_SUCCESSFUL,
-  JOIN_ROOM_UNSUCCESSFUL,
-  JOINING_ROOM,
-  USERS_RECEIVED,
-  CHANGE_ROOM_TYPE
+	CREATE_ROOM_SUCCESSFUL,
+	UPDATE_USERNAME,
+	JOIN_ROOM_SUCCESSFUL,
+	JOIN_ROOM_UNSUCCESSFUL,
+	JOINING_ROOM,
+	USERS_RECEIVED,
+	CHANGE_ROOM_TYPE, SEND_TEXT, RECEIVED_TEXT
 } from "./actionTypes";
 
 import { history } from "../store";
@@ -69,11 +70,13 @@ export const createRoomSuccessful = room => {
 };
 
 export const joinRoomSuccessful = room => {
+	const newestUserName = room.users[room.users.length - 1].username;
 	return dispatch => {
 		dispatch({
 			type: JOIN_ROOM_SUCCESSFUL,
 			roomId: room.id,
-			users: room.users
+			users: room.users,
+			newestUserName
 		});
 
 		if (!history.location.pathname.includes('rooms')) {
@@ -104,4 +107,26 @@ export const changeRoomType = (videoId = null) => {
     type: CHANGE_ROOM_TYPE,
     videoId
   };
+};
+
+export const sendText = (text, username, roomId) => {
+	return dispatch => {
+		dispatch({
+			type: SEND_TEXT,
+			text,
+			username,
+			roomId
+		});
+
+		sendTextSocket(username, text, roomId);
+	}
+};
+
+export const receivedText = (text, username, roomId) => {
+	return {
+		type: RECEIVED_TEXT,
+		text,
+		username,
+		roomId
+	}
 };

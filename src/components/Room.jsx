@@ -7,7 +7,7 @@ import Choose from "./ChooseVideo";
 import Watch from "./WatchVideo";
 import WebRTC from "./WebRTC";
 
-import { getUsers, changeRoomType } from "../actions/applicationActions";
+import { getUsers, changeRoomType, sendText } from "../actions/applicationActions";
 
 const SYSTEM = 'SYSTEM';
 
@@ -15,19 +15,14 @@ const mapStateToProps = state => {
 	return {
 		roomId: state.application.roomId,
 		users: state.application.users,
-		roomType: state.application.roomType
+		roomType: state.application.roomType,
+		username: state.application.username,
+		chat: state.application.chat
 	}
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getUsers, changeRoomType }, dispatch);
-};
-
-const chatObject = (username, text) => {
-	return {
-		username,
-		text
-	}
+  return bindActionCreators({ getUsers, changeRoomType, sendText }, dispatch);
 };
 
 class Room extends Component {
@@ -41,26 +36,7 @@ class Room extends Component {
 	 */
 	state = {
 		query: "",
-		chat: [],
 		users: []
-	};
-
-	constructor(props) {
-		super(props);
-
-		console.log('constructor', props);
-	}
-
-	static getDerivedStateFromProps = (nextProps, prevState) => {
-		console.log('in derived', nextProps, prevState);
-		if (nextProps.users.length !== prevState.users.length) {
-			let newUsers = nextProps.users.filter(user => !prevState.users.includes(user));
-			return {
-				users: nextProps.users,
-				chat: [chatObject(SYSTEM, `${newUsers[newUsers.length - 1].username} has joined!`), ...prevState.chat]
-			}
-		}
-		return null;
 	};
 
   searchVideo(e) {
@@ -68,9 +44,17 @@ class Room extends Component {
     this.setState({ query: e.target.query.value });
   }
 
+	handleEnter = e => {
+  	const text = e.target.value;
+		if (e.key === 'Enter' && text.trim().length > 0) {
+			this.props.sendText(text, this.props.username, this.props.roomId);
+			e.target.value = '';
+		}
+	};
+
   render() {
-    const { query, chat } = this.state;
-    const { roomType } = this.props;
+    const { query } = this.state;
+    const { roomType, chat } = this.props;
     return (
       <div className="room">
         <Navbar />
@@ -88,15 +72,17 @@ class Room extends Component {
             )}
             <Col lg="3" className="chat-column">
               <div className="chat-container">
-                <Input type="text" placeholder="Type message..." />
+                <Input type="text" placeholder="Type message..." onKeyUp={e => this.handleEnter(e)}/>
 
 	              {chat.map((chatObject, index) => {
-		              return <p className="text" key={index}>{chatObject.text}</p>
+		              return chatObject.roomId === this.props.roomId ?
+			              <p className="text" key={index}>{chatObject.username !== SYSTEM && `${chatObject.username}: `}{chatObject.text}</p> :
+			              ''
 	              })}
               </div>
             </Col>
           </Row>
-          <WebRTC />
+          {/*<WebRTC />*/}
         </Container>
       </div>
     );
