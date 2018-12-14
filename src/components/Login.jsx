@@ -3,26 +3,37 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Input, Label, Container, Row, Col } from "reactstrap";
 
-import { connectToSocket, updateUsername, createRoom } from "../actions/applicationActions";
+import { connectToSocket, updateUsername, createRoom, joinRoom } from "../actions/applicationActions";
 
 const mapStateToProps = state => {
 	return {
-		username: state.application.username
+		username: state.application.username,
+		searching: state.application.searching,
+		connected: state.application.connected
 	}
 };
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({connectToSocket, updateUsername, createRoom}, dispatch);
+	return bindActionCreators({connectToSocket, updateUsername, createRoom, joinRoom}, dispatch);
 };
 
 class Login extends Component {
 	state = {
 		roomOption: null,
-		roomId: ""
+		roomId: "",
+		errorText: null
 	};
 
 	componentDidMount() {
 		this.props.connectToSocket();
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (!nextProps.connected && !nextProps.searching) {
+			return {errorText: 'Room not found.'}
+		}
+
+		return null;
 	}
 
 	isButtonEnabled = () => {
@@ -45,16 +56,26 @@ class Login extends Component {
 	enterRoom = e => {
 		e.preventDefault();
 		const {roomId, roomOption} = this.state;
-		const {username} = this.props;
+		const {username, createRoom, joinRoom} = this.props;
+		const roomIdInt = parseInt(roomId);
+
 		if (roomOption === 0) {
-			this.props.createRoom(username);
+			createRoom(username);
 		} else {
 			// join room
+			if (isNaN(roomIdInt)) {
+				// error handling
+				this.setState({
+					errorText: 'Please enter a valid number.'
+				})
+			} else {
+				joinRoom(username, roomIdInt);
+			}
 		}
 	};
 
 	render() {
-		const {roomOption, roomId} = this.state;
+		const {roomOption, roomId, errorText} = this.state;
 		const {updateUsername, username} = this.props;
 		return (
 			<Container>
@@ -95,15 +116,20 @@ class Login extends Component {
 							)}
 
 							{roomOption === 1 && (
-								<div className="input-section">
-									<Label for="room">Room ID (required):</Label>
-									<Input
-										type="text"
-										id="room"
-										placeholder="Enter Room ID"
-										value={roomId}
-										onChange={e => this.setState({roomId: e.target.value})}
-									/>
+								<div>
+									<div className="input-section">
+										<Label for="room">Room ID (required):</Label>
+										<Input
+											type="text"
+											id="room"
+											placeholder="Enter Room ID"
+											value={roomId}
+											onChange={e => this.setState({roomId: e.target.value})}
+										/>
+
+									</div>
+									{errorText !== null && <p className="text-danger">{errorText}</p>}
+
 								</div>
 							)}
 
