@@ -27,7 +27,7 @@ class NavbarComponent extends Component {
 	render() {
 		const {roomType, videoId, changeRoomType} = this.props;
 		return (
-			<div>
+			<React.Fragment>
 				<Navbar expand="lg">
 					<NavbarBrand href="/">WeTube</NavbarBrand>
 					<NavbarToggler className="mr-2"/>
@@ -44,7 +44,7 @@ class NavbarComponent extends Component {
 						</NavItem>
 					</Nav>
 				</Navbar>
-			</div>
+			</React.Fragment>
 		);
 	}
 }
