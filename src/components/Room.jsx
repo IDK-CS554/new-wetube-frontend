@@ -7,7 +7,7 @@ import Choose from "./ChooseVideo";
 import Watch from "./WatchVideo";
 import WebRTC from "./WebRTC";
 
-import { getUsers, changeRoomType, sendText } from "../actions/applicationActions";
+import { getUsers, sendText } from "../actions/applicationActions";
 
 const SYSTEM = 'SYSTEM';
 
@@ -22,7 +22,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return bindActionCreators({ getUsers, changeRoomType, sendText }, dispatch);
+  return bindActionCreators({ getUsers, sendText }, dispatch);
 };
 
 class Room extends Component {
@@ -54,7 +54,7 @@ class Room extends Component {
 
   render() {
     const { query } = this.state;
-    const { roomType, chat } = this.props;
+    const { roomType, chat, roomId } = this.props;
     return (
       <div className="room">
         <Navbar />
@@ -64,18 +64,17 @@ class Room extends Component {
               <Choose
                 query={query}
                 searchVideo={this.searchVideo.bind(this)}
-                changeRoomType={this.props.changeRoomType.bind(this)}
               />
             )}
             {roomType === "watch" && (
-              <Watch changeRoomType={this.props.changeRoomType.bind(this)} />
+              <Watch />
             )}
             <Col lg="3" className="chat-column">
               <div className="chat-container">
                 <Input type="text" placeholder="Type message..." onKeyUp={e => this.handleEnter(e)}/>
 
 	              {chat.map((chatObject, index) => {
-		              return chatObject.roomId === this.props.roomId ?
+		              return chatObject.roomId === roomId ?
 			              <p className="text" key={index}>{chatObject.username !== SYSTEM && `${chatObject.username}: `}{chatObject.text}</p> :
 			              ''
 	              })}
