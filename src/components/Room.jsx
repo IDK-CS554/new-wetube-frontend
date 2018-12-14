@@ -56,7 +56,7 @@ class Room extends Component {
 			let newUsers = nextProps.users.filter(user => !prevState.users.includes(user));
 			return {
 				users: nextProps.users,
-				chat: [...prevState.chat, chatObject(SYSTEM, `${newUsers[newUsers.length - 1].username} has joined!`)]
+				chat: [chatObject(SYSTEM, `${newUsers[newUsers.length - 1].username} has joined!`), ...prevState.chat]
 			}
 		}
 		return null;
