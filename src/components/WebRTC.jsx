@@ -53,8 +53,6 @@ function join(roomID) {
   joinVideoChat(roomID);
 }
 
-
-
 class WebRTC extends Component {
   state = {
     query: "",

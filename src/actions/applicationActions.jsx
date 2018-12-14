@@ -57,29 +57,29 @@ export const updateUsername = username => {
 };
 
 export const createRoomSuccessful = room => {
-	return dispatch => {
-		dispatch({
-			type: CREATE_ROOM_SUCCESSFUL,
-			roomId: room.id,
-			users: room.users
-		});
+  return dispatch => {
+    dispatch({
+      type: CREATE_ROOM_SUCCESSFUL,
+      roomId: room.roomId,
+      users: room.users
+    });
 
-		history.push(`/rooms/${room.id}`);
-	}
+    history.push(`/rooms/${room.roomId}`);
+  };
 };
 
 export const joinRoomSuccessful = room => {
-	return dispatch => {
-		dispatch({
-			type: JOIN_ROOM_SUCCESSFUL,
-			roomId: room.id,
-			users: room.users
-		});
+  return dispatch => {
+    dispatch({
+      type: JOIN_ROOM_SUCCESSFUL,
+      roomId: room.roomId,
+      users: room.users
+    });
 
-		if (!history.location.pathname.includes('rooms')) {
-			history.push(`/rooms/${room.id}`);
-		}
-	}
+    if (!history.location.pathname.includes("rooms")) {
+      history.push(`/rooms/${room.roomId}`);
+    }
+  };
 };
 
 export const joinRoomUnsuccessful = roomId => {

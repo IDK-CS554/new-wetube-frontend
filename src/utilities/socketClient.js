@@ -6,20 +6,19 @@ import {
   joinRoomUnsuccessful
 } from "../actions/applicationActions";
 
-// TODO: i think it's possible for this to be null if a user refreshes inside a room
 let socket = null;
-const dispatch = store.dispatch;
-const getState = store.getState;
+const { dispatch, getState } = store;
 
 export const openConnection = () => {
   return new Promise((resolve, reject) => {
     socket = io(`${process.env.REACT_APP_backend_url}/final`);
     socket.on("createRoomSuccessful", room => {
+      console.log(room);
       dispatch(createRoomSuccessful(room));
     });
 
     socket.on("joinRoomSuccessful", room => {
-      console.log('in join room socket');
+      console.log("in join room socket");
       dispatch(joinRoomSuccessful(room));
     });
 
