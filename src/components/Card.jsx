@@ -1,19 +1,21 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from "react-redux";
+// import { bindActionCreators } from "redux";
 import { Card, CardImg, CardBody, CardTitle } from "reactstrap";
 
-import {changeRoomType} from "../actions/applicationActions";
+import { changeRoomType } from "../utilities/socketClient";
 
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators({changeRoomType}, dispatch);
+const mapStateToProps = state => {
+  return {
+    roomId: state.room.roomId
+  };
 };
 
 export class VideoCard extends Component {
   render() {
-    const { thumbUrl, title, videoId, changeRoomType } = this.props;
+    const { thumbUrl, title, videoId, roomId } = this.props;
     return (
-      <Card onClick={() => changeRoomType(videoId)}>
+      <Card onClick={() => changeRoomType(roomId, videoId)}>
         <CardImg top width="100%" src={thumbUrl} alt="thumbnail" />
         <CardBody>
           <CardTitle>{title}</CardTitle>
@@ -23,4 +25,4 @@ export class VideoCard extends Component {
   }
 }
 
-export default connect(null, mapDispatchToProps)(VideoCard);
+export default connect(mapStateToProps)(VideoCard);

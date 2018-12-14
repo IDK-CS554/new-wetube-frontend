@@ -5,6 +5,7 @@ import {
   joinRoomSuccessful,
   joinRoomUnsuccessful,
   receivedText,
+  changeRoomAction,
   userLeft
 } from "../actions/applicationActions";
 
@@ -30,6 +31,10 @@ export const openConnection = () => {
 
     socket.on("joinRoomUnsuccessful", roomId => {
       dispatch(joinRoomUnsuccessful(roomId));
+    });
+
+    socket.on("changeRoomType", ({ roomId, videoId }) => {
+      dispatch(changeRoomAction(roomId, videoId));
     });
 
     socket.on("receivedText", payload => {
@@ -66,4 +71,8 @@ export const sendText = (username, text, roomId) => {
 
 export const exitRoom = () => {
   socket.emit("exitRoom");
+};
+
+export const changeRoomType = (roomId, videoId = null) => {
+  socket.emit("changeRoomType", { videoId, roomId });
 };

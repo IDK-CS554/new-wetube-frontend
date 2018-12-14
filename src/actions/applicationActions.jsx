@@ -3,7 +3,8 @@ import {
   createRoom as createRoomSocket,
   joinRoom as joinRoomSocket,
   sendText as sendTextSocket,
-  exitRoom as exitRoomSocket
+  exitRoom as exitRoomSocket,
+  changeRoomType
 } from "../utilities/socketClient";
 import {
   CREATE_ROOM_SUCCESSFUL,
@@ -14,9 +15,9 @@ import {
   USERS_RECEIVED,
   USER_LEFT,
   EXIT_ROOM,
-  CHANGE_ROOM_TYPE,
   SEND_TEXT,
-  RECEIVED_TEXT
+  RECEIVED_TEXT,
+  CHANGE_ROOM_TYPE
 } from "./actionTypes";
 
 import { history } from "../store";
@@ -109,13 +110,6 @@ export const getUsers = roomId => {
   };
 };
 
-export const changeRoomType = (videoId = null) => {
-  return {
-    type: CHANGE_ROOM_TYPE,
-    videoId
-  };
-};
-
 export const sendText = (text, username, roomId) => {
   return dispatch => {
     dispatch({
@@ -143,6 +137,16 @@ export const userLeft = userId => {
     dispatch({
       type: USER_LEFT,
       userId
+    });
+  };
+};
+
+export const changeRoomAction = (roomId, videoId = null) => {
+  return dispatch => {
+    dispatch({
+      type: CHANGE_ROOM_TYPE,
+      videoId,
+      roomId
     });
   };
 };
