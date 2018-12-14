@@ -2,9 +2,6 @@ import ReactPlayer from "react-player";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
-  openConnection,
-  createRoom as createRoomSocket,
-  joinRoom as joinRoomSocket,
   joinVideoChat
 } from "../utilities/socketClient";
 var RTCPeerConnection =
@@ -20,8 +17,7 @@ var RTCSessionDescription =
 
 const mapStateToProps = state => {
   return {
-    roomId: state.application.roomId,
-    roomType: state.application.roomType
+    roomId: state.application.roomId
   };
 };
 
@@ -38,7 +34,6 @@ var configuration = { iceServers: [{ url: "stun:stun.l.google.com:19302" }] };
 var pcPeers = {};
 var selfView = document.getElementById("selfView");
 var remoteViewContainer = document.getElementById("remoteViewContainer");
-var localStream;
 
 async function getLocalStream(e) {
   try {
@@ -49,13 +44,8 @@ async function getLocalStream(e) {
   }
 }
 
-function join(roomID) {
-  joinVideoChat(roomID);
-}
-
 class WebRTC extends Component {
   state = {
-    query: "",
     videoSrc: ""
   };
 

@@ -82,7 +82,7 @@ class Login extends Component {
 				<Row>
 					<Col lg="12">
 						<form className="login" onSubmit={evt => this.enterRoom(evt)}>
-							<h4 className="header-text">What do you want to do?</h4>
+							<h1 className="header-text">What do you want to do?</h1>
 							<div className="input-section">
 								<Button
 									className="create-room"

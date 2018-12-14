@@ -7,6 +7,7 @@ import {
 	USERS_RECEIVED,
 	CHANGE_ROOM_TYPE, RECEIVED_TEXT, SEND_TEXT
 } from "../../actions/actionTypes";
+import { SYSTEM } from "../../constants";
 
 const initialState = {
   connected: false,
@@ -25,8 +26,6 @@ const chatObject = (username, roomId, text) => {
     roomId
 	}
 };
-
-const SYSTEM = 'SYSTEM';
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -70,7 +69,7 @@ export default (state = initialState, action) => {
         roomId: action.roomId,
         searching: false,
 	      users: action.users,
-	      chat: [chatObject('SYSTEM', action.roomId, `${action.newestUserName} has joined the chat!`), ...state.chat]
+	      chat: [chatObject(SYSTEM, action.roomId, `${action.newestUserName} has joined the chat!`), ...state.chat]
       };
     case JOIN_ROOM_UNSUCCESSFUL:
       return {

@@ -5,9 +5,10 @@ import {
 	joinRoomSuccessful,
 	joinRoomUnsuccessful, receivedText
 } from "../actions/applicationActions";
+import { SYSTEM } from "../constants";
 
 let socket = null;
-const { dispatch, getState } = store;
+const { dispatch } = store;
 
 export const openConnection = () => {
   return new Promise((resolve, reject) => {
@@ -36,7 +37,7 @@ export const openConnection = () => {
 
     socket.on("userLeft", payload => {
     	const {username, roomId, userId} = payload;
-    	dispatch(receivedText(`${username} has left the room.`, 'SYSTEM', roomId));
+    	dispatch(receivedText(`${username} has left the room.`, SYSTEM, roomId));
     });
     resolve();
   });
