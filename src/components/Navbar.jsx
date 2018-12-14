@@ -1,20 +1,48 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand, NavbarToggler, Button, Nav } from "reactstrap";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  NavItem,
+  Button,
+  Nav
+} from "reactstrap";
 
-export default class extends Component {
-  state = {
-    inRoom: true
+import { changeRoomType } from "../actions/applicationActions";
+
+const mapStateToProps = state => {
+  return {
+    roomType: state.application.roomType,
+    videoId: state.application.videoId
   };
+};
+
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators({ changeRoomType }, dispatch);
+};
+
+class NavbarComponent extends Component {
   render() {
-    const { inRoom } = this.state;
+    const { roomType, videoId, changeRoomType } = this.props;
     return (
       <div>
         <Navbar expand="lg">
           <NavbarBrand href="/">WeTube</NavbarBrand>
           <NavbarToggler className="mr-2" />
-          {inRoom && (
+          {roomType === "watch" && (
             <Nav className="ml-auto" navbar>
-              <Button color="danger">Leave Room</Button>
+              {videoId && (
+                <NavItem>
+                  <Button onClick={() => changeRoomType()} color="default">
+                    Choose Another Video
+                  </Button>
+                </NavItem>
+              )}
+              <NavItem>
+                <Button color="danger">Exit Room</Button>
+              </NavItem>
             </Nav>
           )}
         </Navbar>
@@ -22,3 +50,8 @@ export default class extends Component {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavbarComponent);

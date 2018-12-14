@@ -1,38 +1,25 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { Container, Row, Col, Input } from "reactstrap";
 import Navbar from "./Navbar";
-import Results from "./VideoResults";
-import gql from "graphql-tag";
+import Choose from "./ChooseVideo";
+import Watch from "./WatchVideo";
 
-import { getUsers } from "../actions/applicationActions";
+import { getUsers, changeRoomType } from "../actions/applicationActions";
 
 const SYSTEM = 'SYSTEM';
-
-const queryVideos = q => gql`
-  query VideoQuery {
-    videos(q: "${q}") {
-      videoId
-      title
-      thumbnails {
-        default {
-          url
-        }
-      }
-    }
-  }
-`;
 
 const mapStateToProps = state => {
 	return {
 		roomId: state.application.roomId,
-		users: state.application.users
+		users: state.application.users,
+		roomType: state.application.roomType
 	}
 };
 
 const mapDispatchToProps = dispatch => {
-	return bindActionCreators({getUsers}, dispatch);
+  return bindActionCreators({ getUsers, changeRoomType }, dispatch);
 };
 
 const chatObject = (username, text) => {
@@ -75,46 +62,46 @@ class Room extends Component {
 		return null;
 	};
 
-	searchVideo(e) {
-		e.preventDefault();
-		this.setState({query: e.target.query.value});
-	}
+  searchVideo(e) {
+    e.preventDefault();
+    this.setState({ query: e.target.query.value });
+  }
 
-	render() {
-		const {query, chat} = this.state;
-		console.log('render', this.props);
-		return (
-			<div className="room">
-				<Navbar/>
-				<Container fluid>
-					<Row>
-						<Col lg="9">
-							<form onSubmit={e => this.searchVideo(e)} className="search-container">
-								<h1 className="search-text">Search for videos</h1>
-								<Input name="query" placeholder="Type Keyword(s)"/>
-							</form>
+  render() {
+    const { query, chat } = this.state;
+    const { roomType } = this.props;
+    return (
+      <div className="room">
+        <Navbar />
+        <Container fluid>
+          <Row>
+            {roomType === "choose" && (
+              <Choose
+                query={query}
+                searchVideo={this.searchVideo.bind(this)}
+                changeRoomType={this.props.changeRoomType.bind(this)}
+              />
+            )}
+            {roomType === "watch" && (
+              <Watch changeRoomType={this.props.changeRoomType.bind(this)} />
+            )}
+            <Col lg="3" className="chat-column">
+              <div className="chat-container">
+                <Input type="text" placeholder="Type message..." />
 
-							{query && (
-								<div className="videos">
-									<Results query={queryVideos(query)}/>
-								</div>
-							)}
-						</Col>
-
-						<Col lg="3" className="chat-column">
-							<div className="chat-container">
-								<Input type="text" placeholder="Type message..."/>
-
-								{chat.map((chatObject, index) => {
-									return <p className="text" key={index}>{chatObject.text}</p>
-								})}
-							</div>
-						</Col>
-					</Row>
-				</Container>
-			</div>
-		);
-	}
+	              {chat.map((chatObject, index) => {
+		              return <p className="text" key={index}>{chatObject.text}</p>
+	              })}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Room);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Room);
