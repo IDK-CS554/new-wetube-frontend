@@ -47,7 +47,7 @@ class NavbarComponent extends Component {
 							</NavItem>
 						)}
 						<NavItem>
-							<Button color="danger" onClick={e => this.exitRoom()}>Exit Room</Button>
+							<Button color="danger" onClick={this.exitRoom}>Exit Room</Button>
 						</NavItem>
 					</Nav>
 				</Navbar>

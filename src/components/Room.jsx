@@ -43,10 +43,6 @@ class Room extends Component {
     this.setState({ query: e.target.query.value });
   }
 
-  componentDidMount() {
-  	console.log('mount');
-  }
-
   handleEnter = e => {
     const text = e.target.value;
     if (e.key === "Enter" && text.trim().length > 0) {
