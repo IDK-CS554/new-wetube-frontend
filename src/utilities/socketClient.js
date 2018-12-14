@@ -37,6 +37,7 @@ export const openConnection = () => {
 
     socket.on("userLeft", payload => {
     	const {username, roomId, userId} = payload;
+    	console.log('user left in socket client');
     	dispatch(receivedText(`${username} has left the room.`, SYSTEM, roomId));
     });
     resolve();

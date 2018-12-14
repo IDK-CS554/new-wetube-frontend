@@ -20,6 +20,10 @@
     .row {
       height: 100%;
 
+      .col-lg-9 {
+        overflow-y: auto;
+      }
+
       .search-container {
         min-height: 200px;
         background-color: #3a83ff;
