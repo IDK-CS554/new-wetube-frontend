@@ -19,7 +19,7 @@ const client = new ApolloClient({
 });
 
 // Uncomment to flush store
-persistor.purge();
+// persistor.purge();
 
 ReactDOM.render(
   <ApolloProvider client={client}>
