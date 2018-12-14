@@ -21,7 +21,7 @@ export const openConnection = () => {
 
     socket.on("joinRoomUnsuccessful", roomId => {
       dispatch(joinRoomUnsuccessful(roomId))
-    })
+    });
     resolve();
   });
 };

@@ -2,7 +2,7 @@ import {
 	CREATE_ROOM_SUCCESSFUL,
 	UPDATE_USERNAME,
 	JOIN_ROOM_SUCCESSFUL,
-	JOIN_ROOM_UNSUCCESSFUL, JOINING_ROOM
+	JOIN_ROOM_UNSUCCESSFUL, JOINING_ROOM, USERS_RECEIVED
 } from "../../actions/actionTypes";
 
 const initialState = {
@@ -10,7 +10,7 @@ const initialState = {
 	roomId: null,
 	username: '',
 	searching: true,
-	otherUsers: []
+	users: []
 };
 
 export default (state = initialState, action) => {
@@ -44,6 +44,11 @@ export default (state = initialState, action) => {
 				connected: false,
 				roomId: action.roomId,
 				searching: false
+			};
+		case USERS_RECEIVED:
+			return {
+				...state,
+				users: action.users
 			};
 		default:
 			return state;

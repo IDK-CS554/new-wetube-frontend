@@ -4,10 +4,11 @@ import {
 	UPDATE_USERNAME,
 	JOIN_ROOM_SUCCESSFUL,
 	JOIN_ROOM_UNSUCCESSFUL,
-	JOINING_ROOM
+	JOINING_ROOM, USERS_RECEIVED
 } from "./actionTypes";
 
 import {history} from "../store";
+import { fetchUsers } from "../utilities/httpApi";
 
 export const connectToSocket = () => {
 	return async () => {
@@ -77,3 +78,13 @@ export const joinRoomUnsuccessful = roomId => {
 		roomId
 	}
 };
+
+export const getUsers = roomId => {
+	return async (dispatch) => {
+		const users = await fetchUsers(roomId);
+		dispatch({
+			type: USERS_RECEIVED,
+			users
+		})
+	}
+}
