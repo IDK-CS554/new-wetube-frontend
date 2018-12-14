@@ -10,6 +10,11 @@ const mapStateToProps = state => {
 };
 
 export class Watch extends Component {
+  _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+
   render() {
     const { videoId } = this.props;
     return (
@@ -24,6 +29,7 @@ export class Watch extends Component {
               autoplay: 1
             }
           }}
+          onReady={this._onReady}
         />
       </Col>
     );
