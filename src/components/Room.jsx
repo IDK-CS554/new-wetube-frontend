@@ -13,11 +13,11 @@ const SYSTEM = "SYSTEM";
 
 const mapStateToProps = state => {
   return {
-    roomId: state.application.roomId,
-    users: state.application.users,
-    roomType: state.application.roomType,
+    roomId: state.room.roomId,
+    users: state.room.users,
+    roomType: state.room.roomType,
     username: state.application.username,
-    chat: state.application.chat
+    chat: state.room.chat
   };
 };
 

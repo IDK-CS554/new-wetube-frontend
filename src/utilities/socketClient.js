@@ -1,24 +1,26 @@
 import { store } from "../store";
 import io from "socket.io-client";
 import {
-	createRoomSuccessful,
-	joinRoomSuccessful,
-	joinRoomUnsuccessful, receivedText
+  createRoomSuccessful,
+  joinRoomSuccessful,
+  joinRoomUnsuccessful,
+  receivedText,
+  userLeft
 } from "../actions/applicationActions";
-import { SYSTEM } from "../constants";
 
 let socket = null;
 const { dispatch } = store;
 
 export const openConnection = () => {
   return new Promise((resolve, reject) => {
-  	if (socket !== null) {
-  		reject("Connection already open");
-  		return;
-	  }
+    if (socket !== null) {
+      reject("Connection already open");
+      return;
+    }
     socket = io(`${process.env.REACT_APP_backend_url}/final`);
-    socket.on("createRoomSuccessful", room => {
-      dispatch(createRoomSuccessful(room));
+    socket.on("createRoomSuccessful", ({ newRoom, username }) => {
+      console.log("joining room:", username, newRoom);
+      dispatch(createRoomSuccessful({ newRoom, username }));
     });
 
     socket.on("joinRoomSuccessful", room => {
@@ -31,13 +33,16 @@ export const openConnection = () => {
     });
 
     socket.on("receivedText", payload => {
-	    const {username, text, roomId} = payload;
-	    dispatch(receivedText(text, username, roomId));
+      const { username, text, roomId } = payload;
+      dispatch(receivedText(text, username, roomId));
     });
 
     socket.on("userLeft", payload => {
-    	const {username, roomId, userId} = payload;
-    	dispatch(receivedText(`${username} has left the room.`, SYSTEM, roomId));
+      const { username, roomId, userId } = payload;
+      dispatch(
+        receivedText(`${username} has left the room.`, "SYSTEM", roomId)
+      );
+      dispatch(userLeft(userId));
     });
     resolve();
   });
@@ -56,9 +61,9 @@ export const joinVideoChat = roomId => {
 };
 
 export const sendText = (username, text, roomId) => {
-	socket.emit('sendText', {username, text, roomId});
+  socket.emit("sendText", { username, text, roomId });
 };
 
 export const exitRoom = () => {
-	socket.emit('exitRoom');
+  socket.emit("exitRoom");
 };
