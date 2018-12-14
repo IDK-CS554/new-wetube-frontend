@@ -74,7 +74,7 @@ export const joinRoomSuccessful = room => {
 	return dispatch => {
 		dispatch({
 			type: JOIN_ROOM_SUCCESSFUL,
-			roomId: room.id,
+			roomId: room.roomId,
 			users: room.users,
 			newestUserName
 		});

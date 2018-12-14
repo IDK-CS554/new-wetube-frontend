@@ -13,7 +13,6 @@ export const openConnection = () => {
   return new Promise((resolve, reject) => {
     socket = io(`${process.env.REACT_APP_backend_url}/final`);
     socket.on("createRoomSuccessful", room => {
-      console.log(room);
       dispatch(createRoomSuccessful(room));
     });
 
