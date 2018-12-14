@@ -1,6 +1,10 @@
 import { store } from "../store";
 import io from "socket.io-client";
-import { createRoomSuccessful, joinRoomSuccessful, joinRoomUnsuccessful } from "../actions/applicationActions";
+import {
+  createRoomSuccessful,
+  joinRoomSuccessful,
+  joinRoomUnsuccessful
+} from "../actions/applicationActions";
 
 // TODO: i think it's possible for this to be null if a user refreshes inside a room
 let socket = null;
@@ -20,7 +24,7 @@ export const openConnection = () => {
     });
 
     socket.on("joinRoomUnsuccessful", roomId => {
-      dispatch(joinRoomUnsuccessful(roomId))
+      dispatch(joinRoomUnsuccessful(roomId));
     });
     resolve();
   });
@@ -31,5 +35,9 @@ export const createRoom = username => {
 };
 
 export const joinRoom = (username, roomId) => {
-  socket.emit('joinRoom', {username, roomId})
+  socket.emit("joinRoom", { username, roomId });
+};
+
+export const joinVideoChat = roomId => {
+  socket.emit("joinVideoChat", roomId);
 };
