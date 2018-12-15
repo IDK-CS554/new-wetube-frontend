@@ -8,12 +8,15 @@ import {
   ROOM_EMPTY,
   CHANGE_ROOM_TYPE,
   PLAY_VIDEO,
-  PAUSE_VIDEO
+  PAUSE_VIDEO,
+  SEEK_VIDEO
 } from "../../actions/actionTypes";
 
 const initialState = {
   roomId: null,
   roomType: "choose",
+  currTime: 0,
+  creator: null,
   users: [],
   chat: [],
   videoPlaying: false
@@ -38,6 +41,7 @@ export default (state = initialState, action) => {
         ...state,
         roomType,
         videoId,
+        currTime: 0,
         videoPlaying: false
       };
     // Do the same thing as RECEIVED_TEXT
@@ -55,6 +59,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         roomId: action.roomId,
+        creator: action.username,
         users: action.users,
         chat: [
           chatObject(
@@ -95,12 +100,19 @@ export default (state = initialState, action) => {
     case PLAY_VIDEO:
       return {
         ...state,
-        videoPlaying: true
+        videoPlaying: true,
+        currTime: action.currTime
       };
     case PAUSE_VIDEO:
       return {
         ...state,
         videoPlaying: false
+      };
+    case SEEK_VIDEO:
+      return {
+        ...state,
+        currTime: action.currTime,
+        videoPlaying: true
       };
     default:
       return state;

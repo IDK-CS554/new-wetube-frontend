@@ -1,81 +1,94 @@
 import React, { Component } from "react";
 import YouTube from "react-youtube";
+import ReactPlayer from "react-player";
 import { connect } from "react-redux";
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from "redux";
 import { Col } from "reactstrap";
 
-import {playVideo as playVideoSocket, pauseVideo as pauseVideoSocket} from '../utilities/socketClient';
+import {
+  playVideo as playVideoSocket,
+  pauseVideo as pauseVideoSocket,
+  seekVideo as seekVideoSocket
+} from "../utilities/socketClient";
 
 const mapStateToProps = state => {
   return {
     roomId: state.room.roomId,
     videoId: state.room.videoId,
+    username: state.application.username,
+    roomCreator: state.room.creator,
+    currTime: state.room.currTime,
     videoPlaying: state.room.videoPlaying
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({}, dispatch);
-}
+};
 
-let videoPlayer;
-
+let currTime, videoPlayer, isCreator;
 export class Watch extends Component {
-  _onReady(event) {
-    // access to player in all event handlers via event.target
-    if (videoPlayer === undefined) {
-	    videoPlayer = event.target;
-    }
-    event.target.pauseVideo();
-  }
-
   onPlay = () => {
-	  playVideoSocket(this.props.roomId);
-  }
+    seekVideoSocket(this.props.roomId, videoPlayer.getCurrentTime());
+    // playVideoSocket(this.props.roomId);
+  };
 
-  onPause = () => {
+  onPause = e => {
     pauseVideoSocket(this.props.roomId);
-  }
+  };
 
-  componentWillUnmount() {
-	  videoPlayer = undefined;
-  }
+  ref = player => {
+    videoPlayer = player;
+  };
 
   static getDerivedStateFromProps(nextProps) {
-    if (nextProps.videoPlaying && videoPlayer !== undefined) {
-      videoPlayer.playVideo();
-    } else if (!nextProps.videoPlaying && videoPlayer !== undefined) {
-      videoPlayer.pauseVideo();
+    if (nextProps.currTime !== currTime && !isCreator && videoPlayer) {
+      currTime = nextProps.currTime;
+      videoPlayer.getInternalPlayer().seekTo(nextProps.currTime);
     }
-    return null;
   }
 
+  componentDidMount() {
+    const { roomCreator, username } = this.props;
+    isCreator = roomCreator === username;
+  }
   componentWillUnmount() {
-    videoPlayer = undefined
+    currTime = undefined;
+    videoPlayer = undefined;
+    isCreator = undefined;
   }
 
   render() {
-    const { videoId } = this.props;
+    const { videoId, videoPlaying, username, roomCreator } = this.props;
     return (
       <Col lg="9">
-        <YouTube
-          videoId={videoId}
-          opts={{
-            height: "100%",
-            width: "100%",
-            playerVars: {
-              // https://developers.google.com/youtube/player_parameters
-	            enablejsapi: 1,
-              autoplay: 1
+        <h1>Creator: {this.props.roomCreator}</h1>
+        <h1>Username: {this.props.username}</h1>
+        <h1>
+          isCreator:
+          {this.props.username === this.props.roomCreator ? "yes" : "no"}
+        </h1>
+        <ReactPlayer
+          url={`https://youtube.com/watch?v=${videoId}`}
+          ref={this.ref}
+          onPlay={e => this.onPlay(e)}
+          onPause={this.onPause}
+          controls={username === roomCreator}
+          playing={videoPlaying}
+          height={"100%"}
+          width={"100%"}
+          config={{
+            youtube: {
+              playerVars: { autoplay: 0 }
             }
           }}
-          onPlay={this.onPlay}
-          onPause={this.onPause}
-          onReady={this._onReady}
         />
       </Col>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Watch);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Watch);
