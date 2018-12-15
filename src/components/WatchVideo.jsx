@@ -62,12 +62,6 @@ export class Watch extends Component {
     const { videoId, videoPlaying, username, roomCreator } = this.props;
     return (
       <Col lg="9">
-        <h1>Creator: {this.props.roomCreator}</h1>
-        <h1>Username: {this.props.username}</h1>
-        <h1>
-          isCreator:
-          {this.props.username === this.props.roomCreator ? "yes" : "no"}
-        </h1>
         <ReactPlayer
           url={`https://youtube.com/watch?v=${videoId}`}
           ref={this.ref}
