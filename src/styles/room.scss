@@ -4,12 +4,18 @@
   nav {
     background: #999;
 
-    a {
+    a, p {
       color: white;
     }
 
-    li.nav-item {
-      margin-left: 20px;
+    .navbar-nav {
+      flex-flow: row;
+
+      li.nav-item {
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+      }
     }
   }
 

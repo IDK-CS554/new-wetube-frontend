@@ -19,7 +19,8 @@ const mapStateToProps = state => {
   return {
     roomType: state.room.roomType,
     videoId: state.room.videoId,
-    roomId: state.room.roomId
+    roomId: state.room.roomId,
+    username: state.application.username
   };
 };
 
@@ -35,13 +36,16 @@ class NavbarComponent extends Component {
   };
 
   render() {
-    const { roomType, videoId, roomId } = this.props;
+    const { roomType, videoId, roomId, username } = this.props;
     return (
       <React.Fragment>
         <Navbar expand="lg">
           <NavbarBrand onClick={e => this.exitRoom(e)} href="">WeTube</NavbarBrand>
           <NavbarToggler className="mr-2" />
           <Nav className="ml-auto" navbar>
+	          <NavItem>
+		          <p>Welcome, {username || ''}!</p>
+	          </NavItem>
             {roomType === "watch" && videoId && (
               <NavItem>
                 <Button onClick={() => changeRoomType(roomId)} color="default">

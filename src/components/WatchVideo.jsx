@@ -37,6 +37,10 @@ export class Watch extends Component {
     pauseVideoSocket(this.props.roomId);
   }
 
+  componentWillUnmount() {
+	  videoPlayer = undefined;
+  }
+
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.videoPlaying && videoPlayer !== undefined) {
       videoPlayer.playVideo();
