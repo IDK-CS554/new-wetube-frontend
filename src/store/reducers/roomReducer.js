@@ -1,19 +1,20 @@
 import {
-  CREATE_ROOM_SUCCESSFUL,
-  JOIN_ROOM_SUCCESSFUL,
-  JOIN_ROOM_UNSUCCESSFUL,
-  RECEIVED_TEXT,
-  SEND_TEXT,
-  USER_LEFT,
-  EXIT_ROOM,
-  CHANGE_ROOM_TYPE
+	CREATE_ROOM_SUCCESSFUL,
+	JOIN_ROOM_SUCCESSFUL,
+	JOIN_ROOM_UNSUCCESSFUL,
+	RECEIVED_TEXT,
+	SEND_TEXT,
+	USER_LEFT,
+	EXIT_ROOM,
+	CHANGE_ROOM_TYPE, PLAY_VIDEO, PAUSE_VIDEO
 } from "../../actions/actionTypes";
 
 const initialState = {
   roomId: null,
   roomType: "choose",
   users: [],
-  chat: []
+  chat: [],
+  videoPlaying: false
 };
 
 const chatObject = (username, roomId, text) => {
@@ -34,7 +35,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         roomType,
-        videoId
+        videoId,
+        videoPlaying: false
       };
     // Do the same thing as RECEIVED_TEXT
     case SEND_TEXT:
@@ -85,9 +87,15 @@ export default (state = initialState, action) => {
       return {
         ...initialState
       };
-    case JOIN_ROOM_UNSUCCESSFUL:
+    case PLAY_VIDEO:
       return {
-        ...state
+        ...state,
+	      videoPlaying: true
+      };
+    case PAUSE_VIDEO:
+      return {
+        ...state,
+	      videoPlaying: false
       };
     default:
       return state;

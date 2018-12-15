@@ -6,7 +6,9 @@ import {
   joinRoomUnsuccessful,
   receivedText,
   changeRoomAction,
-  userLeft
+  userLeft,
+  playVideo as playVideoAction,
+  pauseVideo as pauseVideoAction
 } from "../actions/applicationActions";
 
 let socket = null;
@@ -49,6 +51,15 @@ export const openConnection = () => {
       );
       dispatch(userLeft(userId));
     });
+
+    socket.on("playVideo", () => {
+      dispatch(playVideoAction());
+    });
+
+	  socket.on("pauseVideo", () => {
+		  dispatch(pauseVideoAction());
+	  });
+
     resolve();
   });
 };
@@ -75,4 +86,12 @@ export const exitRoom = () => {
 
 export const changeRoomType = (roomId, videoId = null) => {
   socket.emit("changeRoomType", { videoId, roomId });
+};
+
+export const playVideo = roomId => {
+  socket.emit('playVideo', roomId);
+};
+
+export const pauseVideo = roomId => {
+	socket.emit('pauseVideo', roomId);
 };

@@ -7,17 +7,17 @@ import {
   changeRoomType
 } from "../utilities/socketClient";
 import {
-  CREATE_ROOM_SUCCESSFUL,
-  UPDATE_USERNAME,
-  JOIN_ROOM_SUCCESSFUL,
-  JOIN_ROOM_UNSUCCESSFUL,
-  JOINING_ROOM,
-  USERS_RECEIVED,
-  USER_LEFT,
-  EXIT_ROOM,
-  SEND_TEXT,
-  RECEIVED_TEXT,
-  CHANGE_ROOM_TYPE
+	CREATE_ROOM_SUCCESSFUL,
+	UPDATE_USERNAME,
+	JOIN_ROOM_SUCCESSFUL,
+	JOIN_ROOM_UNSUCCESSFUL,
+	JOINING_ROOM,
+	USERS_RECEIVED,
+	USER_LEFT,
+	EXIT_ROOM,
+	SEND_TEXT,
+	RECEIVED_TEXT,
+	CHANGE_ROOM_TYPE, PLAY_VIDEO, PAUSE_VIDEO
 } from "./actionTypes";
 
 import { history } from "../store";
@@ -159,4 +159,20 @@ export const exitRoom = userId => {
     });
     exitRoomSocket();
   };
+};
+
+export const playVideo = () => {
+  return dispatch => {
+    dispatch({
+      type: PLAY_VIDEO
+    })
+  }
+};
+
+export const pauseVideo = () => {
+	return dispatch => {
+		dispatch({
+			type: PAUSE_VIDEO
+		})
+	}
 };
