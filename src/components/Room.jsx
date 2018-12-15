@@ -5,7 +5,7 @@ import { Container, Row, Col, Input } from "reactstrap";
 import Navbar from "./Navbar";
 import Choose from "./ChooseVideo";
 import Watch from "./WatchVideo";
-import WebRTC from "./WebRTC";
+import WebRTC from "./videoChat/WebRTC";
 
 import { getUsers, sendText } from "../actions/applicationActions";
 
@@ -86,7 +86,7 @@ class Room extends Component {
               </div>
             </Col>
           </Row>
-          {/*<WebRTC />*/}
+          <WebRTC />
         </Container>
       </div>
     );

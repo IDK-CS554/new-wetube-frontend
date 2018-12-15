@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store";
+import { Provider as WebRTCProvider } from "@andyet/simplewebrtc";
 
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
@@ -18,15 +19,17 @@ const client = new ApolloClient({
   uri: "http://localhost:5000/data"
 });
 
+const API_KEY = "6230af90312017c095b4252a";
+const CONFIG_URL = `https://api.simplewebrtc.com/config/guest/${API_KEY}`;
 // Uncomment to flush store
 // persistor.purge();
 
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <PersistGate persistor={persistor} loading={null}>
-        <App />
-      </PersistGate>
+        <PersistGate persistor={persistor} loading={null}>
+          <App />
+        </PersistGate>
     </Provider>
   </ApolloProvider>,
   document.getElementById("root")
