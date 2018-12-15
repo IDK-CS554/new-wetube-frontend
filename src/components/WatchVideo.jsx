@@ -21,13 +21,11 @@ const mapDispatchToProps = dispatch => {
 let videoPlayer;
 
 export class Watch extends Component {
-
   _onReady(event) {
     // access to player in all event handlers via event.target
     if (videoPlayer === undefined) {
 	    videoPlayer = event.target;
     }
-    console.log('ready', videoPlayer);
     event.target.pauseVideo();
   }
 
@@ -40,12 +38,16 @@ export class Watch extends Component {
   }
 
   static getDerivedStateFromProps(nextProps) {
-    if (nextProps.videoPlaying === true && videoPlayer !== undefined) {
+    if (nextProps.videoPlaying && videoPlayer !== undefined) {
       videoPlayer.playVideo();
-    } else if (nextProps.videoPlaying === false && videoPlayer !== undefined) {
+    } else if (!nextProps.videoPlaying && videoPlayer !== undefined) {
       videoPlayer.pauseVideo();
     }
     return null;
+  }
+
+  componentWillUnmount() {
+    videoPlayer = undefined
   }
 
   render() {

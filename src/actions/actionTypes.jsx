@@ -11,3 +11,4 @@ export const EXIT_ROOM = "EXIT_ROOM";
 export const USER_LEFT = "USER_LEFT";
 export const PLAY_VIDEO = "PLAY_VIDEO";
 export const PAUSE_VIDEO = "PAUSE_VIDEO";
+export const ROOM_EMPTY = "ROOM_EMPTY"

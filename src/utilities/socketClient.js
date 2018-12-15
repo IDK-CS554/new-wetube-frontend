@@ -7,6 +7,7 @@ import {
   receivedText,
   changeRoomAction,
   userLeft,
+  roomEmpty,
   playVideo as playVideoAction,
   pauseVideo as pauseVideoAction
 } from "../actions/applicationActions";
@@ -44,6 +45,11 @@ export const openConnection = () => {
       dispatch(receivedText(text, username, roomId));
     });
 
+    socket.on("roomEmpty", payload => {
+      const { roomId } = payload;
+      dispatch(roomEmpty(roomId));
+    });
+
     socket.on("userLeft", payload => {
       const { username, roomId, userId } = payload;
       dispatch(
@@ -56,9 +62,9 @@ export const openConnection = () => {
       dispatch(playVideoAction());
     });
 
-	  socket.on("pauseVideo", () => {
-		  dispatch(pauseVideoAction());
-	  });
+    socket.on("pauseVideo", () => {
+      dispatch(pauseVideoAction());
+    });
 
     resolve();
   });
@@ -89,9 +95,9 @@ export const changeRoomType = (roomId, videoId = null) => {
 };
 
 export const playVideo = roomId => {
-  socket.emit('playVideo', roomId);
+  socket.emit("playVideo", roomId);
 };
 
 export const pauseVideo = roomId => {
-	socket.emit('pauseVideo', roomId);
+  socket.emit("pauseVideo", roomId);
 };

@@ -16,7 +16,8 @@ import {
 	USER_LEFT,
 	EXIT_ROOM,
 	SEND_TEXT,
-	RECEIVED_TEXT,
+  RECEIVED_TEXT,
+  ROOM_EMPTY,
 	CHANGE_ROOM_TYPE, PLAY_VIDEO, PAUSE_VIDEO
 } from "./actionTypes";
 
@@ -176,3 +177,12 @@ export const pauseVideo = () => {
 		})
 	}
 };
+
+export const roomEmpty = (roomId) => {
+  return dispatch => {
+    dispatch({
+      type: ROOM_EMPTY,
+      roomId
+    })
+  }
+}

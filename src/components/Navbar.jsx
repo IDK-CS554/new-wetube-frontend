@@ -28,7 +28,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 class NavbarComponent extends Component {
-  exitRoom = () => {
+  exitRoom = (e) => {
+    e.preventDefault()
     this.props.exitRoom();
     this.props.history.replace("/");
   };
@@ -38,7 +39,7 @@ class NavbarComponent extends Component {
     return (
       <React.Fragment>
         <Navbar expand="lg">
-          <NavbarBrand href="/">WeTube</NavbarBrand>
+          <NavbarBrand onClick={e => this.exitRoom(e)} href="">WeTube</NavbarBrand>
           <NavbarToggler className="mr-2" />
           <Nav className="ml-auto" navbar>
             {roomType === "watch" && videoId && (
